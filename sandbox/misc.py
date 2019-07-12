@@ -2,6 +2,7 @@ import pyqtgraph as pg
 from pyqtgraph.Qt import QtCore, QtGui
 import numpy as np
 import pyqtgraph.console
+import vigra
 
 from layer_viewer import dcolors
 from layer_viewer import LayerViewerWidget
@@ -53,6 +54,9 @@ print(f"shape {img.shape}")
 
 n_components = 3
 img =  numpy.moveaxis(img,0,2)
+img = vigra.taggedView(img, 'xyc')
+img = vigra.filters.gaussianSmoothing(img, 5.0)
+img = numpy.require(img, requirements=['C'])
 X = img.reshape([-1, n_channels])
 maskedX = X[flat_mask,:]
 dim_red_alg = sklearn.decomposition.PCA(n_components=n_components)
