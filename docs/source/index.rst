@@ -32,8 +32,7 @@ This software is licensed under the MIT license license. See the LICENSE.txt fil
    benchmark
    python
    examples
-   conda_recipe
-
+   
 .. toctree::
    :caption: Examples
    :maxdepth: 2

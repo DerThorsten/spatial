@@ -1,4 +1,4 @@
-name: spatial-dev-requirements
+name: spatial-dev
 
 channels:
   - anaconda
@@ -17,4 +17,10 @@ dependencies:
   - numpy
   - xtensor-python
   - pybind11
-  
+  - pip
+  - scikit-learn
+  - scikit-image
+  - vigra
+  - matplotlib
+  - pip:
+    - git+https://github.com/DerThorsten/layer_viewer.git
