@@ -55,7 +55,7 @@ print(f"shape {img.shape}")
 n_components = 3
 img =  numpy.moveaxis(img,0,2)
 img = vigra.taggedView(img, 'xyc')
-img = vigra.filters.gaussianSmoothing(img, 5.0)
+img = vigra.filters.gaussianSmoothing(img, 0.5)
 img = numpy.require(img, requirements=['C'])
 X = img.reshape([-1, n_channels])
 maskedX = X[flat_mask,:]
