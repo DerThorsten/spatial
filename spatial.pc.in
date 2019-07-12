@@ -1,0 +1,8 @@
+prefix=@CMAKE_INSTALL_PREFIX@
+libdir=${prefix}/@CMAKE_INSTALL_LIBDIR@
+includedir=${prefix}/include
+
+Name: spatial
+Description: spatial is a library for spatial genomics data
+Version: @spatial_VERSION@
+Cflags: -I${includedir}

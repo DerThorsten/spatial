@@ -1,0 +1,11 @@
+name: spatial-docs
+
+channels:
+  - anaconda
+  - conda-forge
+dependencies:
+  - cookiecutter
+  - sphinx
+  - doxygen
+  - breathe
+  - sphinx_rtd_theme

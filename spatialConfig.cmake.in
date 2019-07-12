@@ -1,0 +1,12 @@
+# spatial cmake module
+# This module sets the following variables in your project::
+#
+#   spatial_FOUND - true if spatial found on the system
+#   spatial_INCLUDE_DIRS - the directory containing spatial headers
+#   spatial_LIBRARY - empty
+
+
+if(NOT TARGET @PROJECT_NAME@)
+  include("${CMAKE_CURRENT_LIST_DIR}/@PROJECT_NAME@Targets.cmake")
+  get_target_property(@PROJECT_NAME@_INCLUDE_DIRS spatial INTERFACE_INCLUDE_DIRECTORIES)
+endif()
