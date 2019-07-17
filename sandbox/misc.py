@@ -21,9 +21,24 @@ import sklearn.decomposition
 
 
 
+root_folder =  "/media/thorsten/Data/embl/"
+mask_folder = os.path.join(root_folder, 'masks') 
+img_folder = os.path.join(root_folder, 'hartlandj/Data/Basel_Zuri/ome/') 
+dataset = []
+
+# make pairs of img,mask for all images in the dataset
+for filename in os.listdir(img_folder):
+    if filename.endswith("ome.tiff") or filename.endswith(".py"): 
+        img_path = filename
+        mask_path = img_path.replace('.ome.tiff','_full_mask.tiff')
+        img_path = os.path.join(img_folder, img_path)
+        mask_path = os.path.join(mask_folder, mask_path)
+        dataset.append((img_path, mask_path))
 
 
 
+    
+print(f"dataset size {len(dataset)}")
 
 app = pg.mkQApp()
 
@@ -31,9 +46,10 @@ image = skimage.data.astronaut().swapaxes(0,1)
 print(image.shape)
 
 
+item = 444
 
-f = "/media/thorsten/Data/embl/hartlandj/Data/Basel_Zuri/ome/BaselTMA_SP41_15.475kx12.665ky_10000x8500_5_20170905_90_000029_X11Y5_242_a0.ome.tiff"
-mask = "/media/thorsten/Data/embl/masks/BaselTMA_SP41_15.475kx12.665ky_10000x8500_5_20170905_90_000029_X11Y5_242_a0_full_mask.tiff"
+f = dataset[item][0]
+mask = dataset[item][1]
 
 
 img = skimage.io.imread(f)
@@ -60,7 +76,7 @@ img = numpy.require(img, requirements=['C'])
 X = img.reshape([-1, n_channels])
 maskedX = X[flat_mask,:]
 dim_red_alg = sklearn.decomposition.PCA(n_components=n_components)
-dim_red_alg.fit(numpy.sqrt(maskedX))
+dim_red_alg.fit(numpy.sqrt(X))
 Y = dim_red_alg.transform(X)
 reshape = tuple(shape) + (n_components,)
 Y = Y.reshape(reshape)
