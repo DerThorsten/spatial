@@ -26,13 +26,16 @@ spatial
     .. image:: https://dev.azure.com/derthorstenbeier/spatial/_apis/build/status/DerThorsten.spatial?branchName=master&jobName=Windows
         :target: https://dev.azure.com/derthorstenbeier/spatial/_build/latest?definitionId=1&branchName=master
 
-
-Features
---------
-
-Current features include: 
+.. 
+    Current features include: 
   * modern C++ 14
   * build system with modernish CMake 
+  
+Getting started
+================
+First, install the dependencies with
+
+``conda env create -f spatial-dev-requirements.yml``
 
 
 
