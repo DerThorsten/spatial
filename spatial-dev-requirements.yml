@@ -23,6 +23,7 @@ dependencies:
   - vigra
   - matplotlib
   - pyqtgraph
+  - snakemake
   - pip:
     - git+https://github.com/DerThorsten/layer_viewer.git
    
