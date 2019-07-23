@@ -7,6 +7,8 @@ from layer_viewer import dcolors
 from layer_viewer import LayerViewerWidget
 from layer_viewer.layers import *
 
+from sandbox.folders import get_masks_folder, get_ome_folder
+
 import vigra
 import os
 
@@ -19,34 +21,39 @@ import sklearn
 import sklearn.decomposition
 import matplotlib.pyplot as plt
 
-luca = False
-if os.path.isdir('/Users/macbook'):
-    luca = True
-if not luca:
-    root_folder = "/media/thorsten/Data/embl/"
-else:
-    root_folder = '/Users/macbook/Downloads/data/'
-mask_folder = os.path.join(root_folder, 'masks')
-img_folder = os.path.join(root_folder, 'hartlandj/Data/Basel_Zuri/ome/')
+
+mask_folder = get_masks_folder()
+img_folder = get_ome_folder()
 dataset = []
+
+img_count = len([img for img in os.listdir(img_folder) if img.endswith('.tiff')])
+masks_count = len([img for img in os.listdir(mask_folder) if img.endswith('.tiff')])
+if img_count != masks_count:
+    raise ValueError(f'img_count = {img_count}, masks_count = {masks_count}')
 
 # make pairs of (img, mask) for all images in the dataset
 for filename in os.listdir(img_folder):
-    if filename.endswith("ome.tiff") or filename.endswith(".py"):
-        img_path = filename
+    img_path = filename
+    mask_path = ''
+    if filename.endswith('ome.tiff'): #or filename.endswith('.py'):
         mask_path = img_path.replace('.ome.tiff', '_full_mask.tiff')
-        img_path = os.path.join(img_folder, img_path)
-        mask_path = os.path.join(mask_folder, mask_path)
+    elif filename.endswith('full.tiff'):
+        mask_path = img_path.replace('full.tiff', 'full_maks.tiff')
+    img_path = os.path.join(img_folder, img_path)
+    mask_path = os.path.join(mask_folder, mask_path)
+    if os.path.isfile(img_path) and os.path.isfile(mask_path):
         dataset.append((img_path, mask_path))
 
-print(f"dataset size {len(dataset)}")
+if len(dataset) != img_count:
+    raise ValueError(f'len(dataset) = {len(dataset)}, img_count = {img_count}')
+print(len(dataset))
 
 app = pg.mkQApp()
 
 image = skimage.data.astronaut().swapaxes(0, 1)
 print(image.shape)
 
-item = 444
+item = 222
 
 f = dataset[item][0]
 mask = dataset[item][1]
