@@ -22,5 +22,7 @@ dependencies:
   - scikit-image
   - vigra
   - matplotlib
-#  - pip:
-#    - git+https://github.com/DerThorsten/layer_viewer.git
+  - pyqtgraph
+  - pip:
+    - git+https://github.com/DerThorsten/layer_viewer.git
+   
