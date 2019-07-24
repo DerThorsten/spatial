@@ -79,4 +79,6 @@ Q: Is the data showing 2D sections of 3D bodies?
 
 A: No
 
+----
+
 .. [1] Schulz D, Zanotelli VRT, Bodenmiller B. et al. *Simultaneous Multiplexed Imaging of mRNA and Proteins with Subcellular Resolution in Breast Cancer Tissue Samples by Mass Cytometry.* Cell Syst. 2018 Jan 24
