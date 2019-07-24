@@ -20,7 +20,7 @@ import pylab
 import sklearn
 import sklearn.decomposition
 import matplotlib.pyplot as plt
-
+from typing import List
 
 mask_folder = get_masks_folder()
 img_folder = get_ome_folder()
@@ -35,7 +35,7 @@ if img_count != masks_count:
 for filename in os.listdir(img_folder):
     img_path = filename
     mask_path = ''
-    if filename.endswith('ome.tiff'): #or filename.endswith('.py'):
+    if filename.endswith('ome.tiff'):  # or filename.endswith('.py'):
         mask_path = img_path.replace('.ome.tiff', '_full_mask.tiff')
     elif filename.endswith('full.tiff'):
         mask_path = img_path.replace('full.tiff', 'full_maks.tiff')
@@ -53,64 +53,92 @@ app = pg.mkQApp()
 image = skimage.data.astronaut().swapaxes(0, 1)
 print(image.shape)
 
-item = 222
+dataset = sorted(dataset, key=lambda x: x[0])
 
-f = dataset[item][0]
-mask = dataset[item][1]
 
-img = skimage.io.imread(f)
-mask = skimage.io.imread(mask)
-plt.figure()
-plt.hist(mask.ravel(), bins=50)
-plt.show()
+def show_mask_histogram(item: int):
+    mask = dataset[item][1]
+    mask = skimage.io.imread(mask)
+    plt.figure()
+    plt.hist(mask.ravel(), bins=50)
+    plt.show()
+    print(mask.min(), mask.max())
 
-print(mask.min(), mask.max())
 
-flat_mask = mask.ravel()
-where_non_zero = numpy.where(flat_mask != 0)[0]
-print(where_non_zero)
+# show_mask_histogram(222)
 
-print(mask.shape)
-img = img.squeeze()
-shape = img.shape[1:3]
-n_channels = img.shape[0]
-print(f"shape {img.shape}")
+def inspect_image(item: int):
+    f = dataset[item][0]
+    mask = dataset[item][1]
 
-n_components = 3
-img = numpy.moveaxis(img, 0, 2)
-img = vigra.taggedView(img, 'xyc')
-img = vigra.filters.gaussianSmoothing(img, 0.5)
-img = numpy.require(img, requirements=['C'])
-X = img.reshape([-1, n_channels])
-maskedX = X[flat_mask, :]
-dim_red_alg = sklearn.decomposition.PCA(n_components=n_components)
-dim_red_alg.fit(numpy.sqrt(X))
-Y = dim_red_alg.transform(X)
-reshape = tuple(shape) + (n_components,)
-Y = Y.reshape(reshape)
+    img = skimage.io.imread(f)
+    mask = skimage.io.imread(mask)
 
-print(f"Y {img.shape}")
+    flat_mask = mask.ravel()
+    where_non_zero = numpy.where(flat_mask != 0)[0]
+    print(where_non_zero)
 
-for c in range(3):
-    Yc = Y[..., c]
-    Yc -= Yc.min()
-    Yc /= Yc.max()
+    print(mask.shape)
+    img = img.squeeze()
+    shape = img.shape[1:3]
+    n_channels = img.shape[0]
+    print(f"shape {img.shape}")
 
-viewer = LayerViewerWidget()
-viewer.setWindowTitle('LayerViewer')
-viewer.show()
+    n_components = 3
+    img = numpy.moveaxis(img, 0, 2)
+    img = vigra.taggedView(img, 'xyc')
+    img = vigra.filters.gaussianSmoothing(img, 0.5)
+    img = numpy.require(img, requirements=['C'])
+    X = img.reshape([-1, n_channels])
+    maskedX = X[flat_mask, :]
+    dim_red_alg = sklearn.decomposition.PCA(n_components=n_components)
+    dim_red_alg.fit(numpy.sqrt(X))
+    Y = dim_red_alg.transform(X)
+    reshape = tuple(shape) + (n_components,)
+    Y = Y.reshape(reshape)
+
+    print(f"Y {img.shape}")
+
+    for c in range(3):
+        Yc = Y[..., c]
+        Yc -= Yc.min()
+        Yc /= Yc.max()
+
+    viewer = LayerViewerWidget()
+    viewer.setWindowTitle(f'{item}: {dataset[item][0]}')
+    viewer.show()
+    layer = MultiChannelImageLayer(name='img', data=img[...])
+    viewer.addLayer(layer=layer)
+
+    layer = MultiChannelImageLayer(name='PCA-IMG', data=Y[...])
+    viewer.addLayer(layer=layer)
+
+    layer = ObjectLayer(name='mask', data=mask)
+    viewer.addLayer(layer=layer)
+
+
+def match(image_names: List[str]) -> List[int]:
+    only_images = [os.path.basename(x[0]) for x in dataset]
+    return [only_images.index(x) if x in only_images else None for x in image_names]
+
+
+consecutive_images = [
+    'BaselTMA_SP43_25.8kx22ky_10500x6500_8_20170928_125_15_X1Y9_63_a0_full.tiff',
+    'BaselTMA_SP43_25.8kx22ky_10500x6500_8_20170928_126_225_X2Y9_141_a0_full.tiff',
+    'BaselTMA_SP43_25.8kx22ky_10500x6500_8_20170928_113_78_X3Y9_198_a0_full.tiff',
+    'BaselTMA_SP43_25.8kx22ky_10500x6500_8_20170928_128_197_X4Y9_283_a0_full.tiff',
+    'BaselTMA_SP43_25.8kx22ky_10500x6500_8_20170928_129_269_X5Y9_346_a0_full.tiff',
+    'BaselTMA_SP43_25.8kx22ky_10500x6500_8_20170928_130_226_X6Y9_391_a0_full.tiff']
+
+indexes = match(consecutive_images)
+for i in indexes:
+    inspect_image(i)
+# inspect_image(221)
+# inspect_image(222)
+# inspect_image(223)
 # layer = RGBImageLayer(name='img', data=image[...])
 # viewer.addLayer(layer=layer)
 
-
-layer = MultiChannelImageLayer(name='img', data=img[...])
-viewer.addLayer(layer=layer)
-
-layer = MultiChannelImageLayer(name='PCA-IMG', data=Y[...])
-viewer.addLayer(layer=layer)
-
-layer = ObjectLayer(name='mask', data=mask)
-viewer.addLayer(layer=layer)
 
 # labels = numpy.zeros(image.shape[0:2], dtype='uint8')
 # label_layer = LabelLayer(name='labels', data=None)
