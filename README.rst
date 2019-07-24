@@ -75,8 +75,8 @@ Each ``.tiff`` file in the ``ome`` folder is uniquely paired with a ``.tiff`` ma
 FAQ
 ====
 
-> Is the data composed of 2D section of a 3D body?
+Q: Is the data showing 2D sections of 3D bodies?
 
-> No
+A: No
 
 .. [1] Schulz D, Zanotelli VRT, Bodenmiller B. et al. *Simultaneous Multiplexed Imaging of mRNA and Proteins with Subcellular Resolution in Breast Cancer Tissue Samples by Mass Cytometry.* Cell Syst. 2018 Jan 24
