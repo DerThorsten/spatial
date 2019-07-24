@@ -50,7 +50,7 @@ Now, if you are in DKFZ cluster the data is already present (in ``/icgc/dkfzlsdf
 
 ``snakemake``
 
-If you are not in the cluster you need to update the code in ``folders.py`` by inserting the path of the root folder of the data in your machine. In the root folder the data must be organized into this directory tree:
+If you are not in the cluster you first need to update the code in ``folders.py`` by inserting the path of the root folder of the data in your machine. In the root folder the data must be organized into this directory tree:
 
 ::
 
