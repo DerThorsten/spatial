@@ -1,5 +1,5 @@
 =================================================
-spatial
+Integrative analysis of single cell imaging mass citometry data of breast cancer patients
 =================================================
 
 .. 
