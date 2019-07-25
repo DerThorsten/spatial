@@ -46,7 +46,9 @@ Currently, there is a problem in the DFKZ cluster which prevents Snakemake to be
 
 ``conda install -c bioconda snakemake``
 
-Now, if you are in DKFZ cluster the data is already present (in ``/icgc/dkfzlsdf/analysis/B260/projects/spatial_zurich/data``) so you can simply run the exploratory data analysis with the command
+If this still does not work, you need to run the script manually instead that with Snakemake.
+
+Now, if you are in DKFZ cluster the data is already present (in ``/icgc/dkfzlsdf/analysis/B260/projects/spatial_zurich/data``) so, if you have been able to install Snakemake, you can run the exploratory data analysis simply with the command
 
 ``snakemake``
 
