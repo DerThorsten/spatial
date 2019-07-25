@@ -1,6 +1,8 @@
 import pandas as pd
 import numpy as np
 import os
+import sys
+import re
 import matplotlib.pyplot as plt
 from colorama import init, Fore
 from sandbox.folders import basel_patient_data_path, \
@@ -91,5 +93,43 @@ if __name__ == '__main__':
     graphical_nan_inspection(staining_data, 'staining data', staining_data_path)
     graphical_nan_inspection(whole_image_data, 'whole image data', whole_image_data_path)
 
+
     # input('this is going to require a lot of ram, press enter to continue...')
     # single_cell_data = pd.read_csv(single_cell_data_path)
+
+    def describe_dataframe(df: pd.DataFrame, columns, file=None):
+        if file is None:
+            kwargs = {}
+        else:
+            kwargs = {'file': open(file, 'w')}
+        for x in columns:
+            print('-' * 100, **kwargs)
+            print(x, **kwargs)
+            print(df[x].describe(), **kwargs)
+            print(df[x].value_counts().sort_index().describe(), **kwargs)
+            print(df[x].value_counts().sort_index(), **kwargs)
+        if not file is None:
+            kwargs['file'].close()
+
+
+    df = basel_patient_data
+    # df = zurich_patient_data
+    columns = df.columns
+    # columns = c
+    # describe_dataframe(df, columns)
+    describe_dataframe(staining_data, staining_data.columns)
+    # describe_dataframe(staining_data, staining_data.columns, file='generated_data/test')
+    # describe_dataframe(whole_image_data, whole_image_data.columns)
+
+    # print('place0')
+    # single_cell_data = pd.read_csv(single_cell_data_path)
+    # print('place1')
+    # describe_dataframe(single_cell_data, single_cell_data.columns, file='generated_data/single_cell_data_summary')
+    # print('place2')
+    # graphical_nan_inspection(single_cell_data, 'single cell data', single_cell_data_path)
+    # print('place_last')
+
+    single_cell_data_only_header = pd.read_csv(single_cell_data_path, nrows=1)
+    columns = single_cell_data_only_header.columns.values
+    columns_without_channels = set(map(lambda x: re.sub(r'(.*?)_c[0-9]{1,2}', r'\1_cXX', x), columns))
+    print(columns_without_channels)

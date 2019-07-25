@@ -122,15 +122,14 @@ def match(image_names: List[str]) -> List[int]:
     return [only_images.index(x) if x in only_images else None for x in image_names]
 
 
-consecutive_images = [
-    'BaselTMA_SP43_25.8kx22ky_10500x6500_8_20170928_125_15_X1Y9_63_a0_full.tiff',
-    'BaselTMA_SP43_25.8kx22ky_10500x6500_8_20170928_126_225_X2Y9_141_a0_full.tiff',
-    'BaselTMA_SP43_25.8kx22ky_10500x6500_8_20170928_113_78_X3Y9_198_a0_full.tiff',
-    'BaselTMA_SP43_25.8kx22ky_10500x6500_8_20170928_128_197_X4Y9_283_a0_full.tiff',
-    'BaselTMA_SP43_25.8kx22ky_10500x6500_8_20170928_129_269_X5Y9_346_a0_full.tiff',
-    'BaselTMA_SP43_25.8kx22ky_10500x6500_8_20170928_130_226_X6Y9_391_a0_full.tiff']
+multiple_images = [
+'BaselTMA_SP41_25.475kx12.665ky_8000x8500_3_20170905_83_218_X10Y4_193_a0_full.tiff',
+'BaselTMA_SP41_33.475kx12.66ky_8500x8500_2_20170905_83_218_X10Y4_244_a0_full.tiff',
+'BaselTMA_SP41_25.475kx12.665ky_8000x8500_3_20170905_75_218_X9Y4_185_a0_full.tiff',
+'BaselTMA_SP41_33.475kx12.66ky_8500x8500_2_20170905_75_218_X9Y4_240_a0_full.tiff'
+]
 
-indexes = match(consecutive_images)
+indexes = match(multiple_images)
 for i in indexes:
     inspect_image(i)
 # inspect_image(221)
