@@ -75,6 +75,14 @@ def get_ome_files() -> List[str]:
         if file.endswith('.tiff'):
             to_return.append(os.path.join(folder, file))
     return to_return
+
+
+def get_processed_data_folder() -> str:
+    root = get_data_folder()
+    path = os.path.join(root, 'stegle_processed')
+    if not os.path.isdir(path):
+        os.makedirs(path, exist_ok=True)
+    return path
 #
 #
 # def match_filenames_with_full_paths(full_paths: List[str], filenames: Tuple[str]) -> Tuple[str]:

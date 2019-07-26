@@ -1,5 +1,5 @@
-snakemake
-generated_data
-sandbox/__pycache__
-.idea
-ideas
+snakemake/
+generated_data/
+.idea/
+ideas/
+__pycache__/

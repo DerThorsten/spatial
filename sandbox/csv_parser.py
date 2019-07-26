@@ -116,7 +116,7 @@ if __name__ == '__main__':
     # df = zurich_patient_data
     columns = df.columns
     # columns = c
-    # describe_dataframe(df, columns)
+    describe_dataframe(df, columns)
     describe_dataframe(staining_data, staining_data.columns)
     # describe_dataframe(staining_data, staining_data.columns, file='generated_data/test')
     # describe_dataframe(whole_image_data, whole_image_data.columns)
@@ -129,7 +129,7 @@ if __name__ == '__main__':
     # graphical_nan_inspection(single_cell_data, 'single cell data', single_cell_data_path)
     # print('place_last')
 
-    single_cell_data_only_header = pd.read_csv(single_cell_data_path, nrows=1)
-    columns = single_cell_data_only_header.columns.values
+    single_cell_reduced = pd.read_csv(single_cell_data_path, nrows=2)
+    columns = single_cell_reduced.columns.values
     columns_without_channels = set(map(lambda x: re.sub(r'(.*?)_c[0-9]{1,2}', r'\1_cXX', x), columns))
-    print(columns_without_channels)
+    print(sorted(columns_without_channels))
