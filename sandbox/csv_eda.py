@@ -1,7 +1,6 @@
 import pandas as pd
 import numpy as np
 import os
-import sys
 import re
 import matplotlib.pyplot as plt
 from colorama import init, Fore
@@ -10,12 +9,13 @@ from sandbox.folders import basel_patient_data_path, \
     single_cell_data_path, \
     staining_data_path, \
     whole_image_data_path
+from sandbox.data_connector import basel_patient_data, \
+    zurich_patient_data, \
+    staining_data, \
+    whole_image_data
 
 if __name__ == '__main__':
     init(autoreset=True)
-
-    basel_patient_data = pd.read_csv(basel_patient_data_path)
-    zurich_patient_data = pd.read_csv(zurich_patient_data_path)
     print('shape of the basel data:', basel_patient_data.shape)
     print('shape of the zurich data:', zurich_patient_data.shape)
     basel_columns = set(basel_patient_data.columns.values)
@@ -65,9 +65,6 @@ if __name__ == '__main__':
         zurich_style = nans_color(zurich_nans)
 
         print(f'{x:35}---/--- | {zurich_style}{zurich_nans:3}/{zurich_patient_data.shape[0]}')
-
-    staining_data = pd.read_csv(staining_data_path)
-    whole_image_data = pd.read_csv(whole_image_data_path)
 
 
     def graphical_nan_inspection(df, title, csv_path):

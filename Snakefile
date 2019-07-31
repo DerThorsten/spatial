@@ -1,9 +1,9 @@
 from sandbox.folders import single_cell_data_path
-from sandbox.csv_to_sqlite3_single_cell import database_single_cell, convert_csv_to_sqlite3_single_cell
+from sandbox.convert_csv_to_sqlite3_single_cell import database_single_cell, convert_csv_to_sqlite3_single_cell
 
 rule all:
     input:
-         # "snakemake/eda_csv"
+         # "snakemake/csv_eda"
          "snakemake/test_vae"
     shell:
          # the rules for which the output files are removed basically act as .PHONY targets
@@ -13,23 +13,23 @@ rule clean:
     shell:
          "rm snakemake/*"
 
-rule eda_csv:
+rule csv_eda:
     output:
-          "snakemake/eda_csv"
+          "snakemake/csv_eda"
     shell:
          """
-         python3 -m sandbox.csv_parser
+         python3 -m sandbox.csv_eda
          # can dependencies be specified without having to deal with files?
-         mkdir -p snakemake; touch snakemake/eda_csv
+         mkdir -p snakemake; touch snakemake/csv_eda
          """
 
-rule eda_ome:
+rule ome_eda:
     output:
-          "snakemake/eda_ome"
+          "snakemake/ome_eda"
     shell:
          """
-         python3 -m sandbox.misc
-         mkdir -p snakemake; touch snakemake/eda_ome
+         python3 -m sandbox.ome_eda
+         mkdir -p snakemake; touch snakemake/ome_eda
          """
 
 rule csv_to_sqlite3_single_cell:

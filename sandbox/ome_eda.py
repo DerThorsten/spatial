@@ -123,10 +123,11 @@ def match(image_names: List[str]) -> List[int]:
 
 
 multiple_images = [
-'BaselTMA_SP41_25.475kx12.665ky_8000x8500_3_20170905_83_218_X10Y4_193_a0_full.tiff',
-'BaselTMA_SP41_33.475kx12.66ky_8500x8500_2_20170905_83_218_X10Y4_244_a0_full.tiff',
-'BaselTMA_SP41_25.475kx12.665ky_8000x8500_3_20170905_75_218_X9Y4_185_a0_full.tiff',
-'BaselTMA_SP41_33.475kx12.66ky_8500x8500_2_20170905_75_218_X9Y4_240_a0_full.tiff'
+'BaselTMA_SP41_33.475kx17.665ky_8500x5000_13_20170905_11_2_X2Y8_159_a0_full.tiff'
+# 'BaselTMA_SP41_25.475kx12.665ky_8000x8500_3_20170905_83_218_X10Y4_193_a0_full.tiff',
+# 'BaselTMA_SP41_33.475kx12.66ky_8500x8500_2_20170905_83_218_X10Y4_244_a0_full.tiff',
+# 'BaselTMA_SP41_25.475kx12.665ky_8000x8500_3_20170905_75_218_X9Y4_185_a0_full.tiff',
+# 'BaselTMA_SP41_33.475kx12.66ky_8500x8500_2_20170905_75_218_X9Y4_240_a0_full.tiff'
 ]
 
 indexes = match(multiple_images)
