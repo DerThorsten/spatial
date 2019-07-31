@@ -80,8 +80,32 @@ def get_ome_files() -> List[str]:
 def get_processed_data_folder() -> str:
     root = get_data_folder()
     path = os.path.join(root, 'stegle_processed')
-    if not os.path.isdir(path):
-        os.makedirs(path, exist_ok=True)
+    os.makedirs(path, exist_ok=True)
+    return path
+
+
+def get_region_features_folder() -> str:
+    path = os.path.join(get_processed_data_folder(), 'region_features')
+    os.makedirs(path, exist_ok=True)
+    return path
+
+
+def get_mask_path_associated_to_ome_path(ome_path: str) -> str:
+    ome_filename = os.path.basename(ome_path)
+    if ome_filename.endswith('ome.tiff'):
+        mask_filename = ome_filename.replace('.ome.tiff', '_full_mask.tiff')
+    elif ome_filename.endswith('full.tiff'):
+        mask_filename = ome_filename.replace('full.tiff', 'full_maks.tiff')
+    else:
+        raise ValueError(f'ome_filename = {ome_filename}')
+    mask_path = os.path.join(get_masks_folder(), mask_filename)
+    return mask_path
+
+
+def get_region_features_path_associated_to_ome_path(ome_path: str) -> str:
+    ome_filename = os.path.basename(ome_path)
+    region_features_filename = ome_filename.replace('.tiff', '_region_features.pickle')
+    path = os.path.join(get_region_features_folder(), region_features_filename)
     return path
 #
 #
