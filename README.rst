@@ -26,6 +26,7 @@ and activate the corresponding conda environment
 
 ``conda activate spatial-dev``
 
+
 Currently, there is a problem in the DFKZ cluster which prevents Snakemake to be installed automatically from the ``.yml`` file, so in any machine you also need to run (from within the spatial-dev environment) the following:
 
 ``conda install -c bioconda snakemake``
@@ -34,6 +35,9 @@ Currently, there is a problem in the DFKZ cluster which prevents Snakemake to be
 =======
 If this still does not work, you need to run the script manually instead that with Snakemake.
 Now, if you are in DKFZ cluster the data is already present (in ``/icgc/dkfzlsdf/analysis/B260/projects/spatial_zurich/data``) so, if you have been able to install Snakemake, you can run the exploratory data analysis simply with the command
+=======
+Now, if you are in DKFZ cluster the data is already present (in ``/icgc/dkfzlsdf/analysis/B260/projects/spatial_zurich/data``) so you can run the exploratory data analysis simply with the command
+>>>>>>> c269ac8d28bf8a4b3417ffcbabd34b50ff875ea6
 
 
 
