@@ -7,10 +7,11 @@ import matplotlib.pyplot as plt
 import skimage
 import progressbar
 import pandas as pd
+from typing import Set, Dict
 
-from sandbox.folders import get_ome_files, get_masks_files, get_ome_folder, get_masks_folder, \
+from sandbox.folders import get_ome_files, get_masks_files, get_ome_folder, \
     get_mask_path_associated_to_ome_path, get_region_features_path_associated_to_ome_path
-from sandbox.data_connector import basel_patient_data, zurich_patient_data, single_cell_data_connection
+from sandbox.data_connector import basel_patient_data, zurich_patient_data
 
 from enum import Enum
 
@@ -41,20 +42,22 @@ class Patient:
 
 class Plate:
     def __init__(self, ome_filename: str):
-        self.region_features = None
-        self.cell_labels = None
-        ome_path = os.path.join(get_ome_folder(), ome_filename)
-        if ome_path in remaining_ome_files:
-            self.ome_path = ome_path
-            remaining_ome_files.remove(ome_path)
-        else:
-            raise FileNotFoundError(f'file not found: {ome_path}')
+        self.ome_path: str
+        self.mask_path: str
+        self.masks: np.ndarray
+        self.region_features: Dict[str, np.array]
 
-        mask_path = get_mask_path_associated_to_ome_path(ome_path)
-        if mask_path in remaining_mask_files:
-            self.mask_path = mask_path
+        self.ome_path = os.path.join(get_ome_folder(), ome_filename)
+        if self.ome_path in remaining_ome_files:
+            remaining_ome_files.remove(self.ome_path)
         else:
-            raise FileNotFoundError(f'file not found {mask_path}')
+            raise FileNotFoundError(f'file not found: {self.ome_path}')
+
+        self.mask_path = get_mask_path_associated_to_ome_path(self.ome_path)
+        if self.mask_path in remaining_mask_files:
+            remaining_mask_files.remove(self.mask_path)
+        else:
+            raise FileNotFoundError(f'file not found {self.mask_path}')
 
         region_features_path = get_region_features_path_associated_to_ome_path(self.ome_path)
         if os.path.isfile(region_features_path):
@@ -62,18 +65,22 @@ class Plate:
         else:
             self.compute_and_save_region_features(region_features_path)
 
-        # hash_md5 = hashlib.md5()
-        # with open(self.ome_path, 'rb') as infile:
-        #     for chunk in iter(lambda: infile.read(4096), b''):
-        #         hash_md5.update(chunk)
-        # hex_digest = hash_md5.hexdigest()
-        # print(f'hex_digest = {hex_digest}')
+    def get_ome(self) -> np.ndarray:
+        ome = skimage.io.imread(self.ome_path)
+        ome = np.moveaxis(ome, 0, 2)
+        ome = np.require(ome, requirements=['C'])
+        return ome
+
+    def get_masks(self) -> np.ndarray:
+        masks = skimage.io.imread(self.mask_path)
+        masks = masks.astype('uint32')
+        masks = np.require(masks, requirements=['C'])
+        return masks
 
     def compute_and_save_region_features(self, region_features_path: str):
-        masks = skimage.io.imread(self.mask_path, )
-        masks = masks.astype('uint32')
-        # note, self.cell_labels can also be a set of non-consecutive numbers
-        self.cell_labels = set(masks.ravel())
+        ome = self.get_ome()
+        masks = self.get_masks()
+
         # plt.figure()
         # cmap = matplotlib.colors.ListedColormap(np.random.rand(masks.max() + 1, 3))
         # cmap.colors[0] = (0, 0, 0)
@@ -81,24 +88,12 @@ class Plate:
         # # plt.colorbar(im)
         # plt.show()
 
-        ome = skimage.io.imread(self.ome_path)
-        ome = np.moveaxis(ome, 0, 2)
-
-        masks = np.require(masks, requirements=['C'])
-        ome = np.require(ome, requirements=['C'])
         # supported_features = vigra.analysis.extractRegionFeatures(ome, labels=masks, features=None,
         #                                                           ignoreLabel=0).supportedFeatures()
         # print(f'supported features: {supported_features}')
         features = vigra.analysis.extractRegionFeatures(ome, labels=masks, ignoreLabel=0,
                                                         features=['Count', 'Maximum', 'Mean', 'Sum',
                                                                   'Variance', 'RegionCenter'])
-        # 'count': features['Count'],
-        #                    'max': features['Maximum'],
-        #                    'sum': features['Sum'],
-        #                    'variance': features['Variance'],
-        # df = pd.DataFrame({'center_x': features['RegionCenter'][:, 0],
-        #                    'center_y': features['RegionCenter'][:, 1]})
-        # return df
 
         self.region_features = {'count': features['Count'],
                                 'max': features['Maximum'],
@@ -108,9 +103,9 @@ class Plate:
                                 'center': features['RegionCenter']}
         pickle.dump(self.region_features, open(region_features_path, 'wb'))
 
-
-# class Cell:
-#     def __init__(self):
+    @staticmethod
+    def get_mask_for_specific_cell(masks: np.ndarray, region_number: int):
+        return (masks == region_number).astype(int)
 
 
 def call_the_initializer(cls):

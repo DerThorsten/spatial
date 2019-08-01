@@ -107,32 +107,3 @@ def get_region_features_path_associated_to_ome_path(ome_path: str) -> str:
     region_features_filename = ome_filename.replace('.tiff', '_region_features.pickle')
     path = os.path.join(get_region_features_folder(), region_features_filename)
     return path
-#
-#
-# def match_filenames_with_full_paths(full_paths: List[str], filenames: Tuple[str]) -> Tuple[str]:
-#     """
-#     Matches a tuple of filenames onto a list of path strings; returns the matched paths in the same order as the input tuple.
-#     In case of ambiguities raises an exception.
-#     The complexity, which can be improved, is n * m, where n and m are the lengths of the two input parameters.
-#
-#     :param full_paths: list of paths
-#     :param filenames: tuple of filenames
-#     :return: tuple of paths which match the input tuple, in the same order as the input tuple
-#     """
-#     if len(filenames) == 0 or len(filenames) > len(full_paths):
-#         raise ValueError(f'len(filenames) = {len(filenames)}, len(full_paths) = {len(full_paths)}')
-#
-#     def find_path(filename: str) -> str:
-#         found = 0
-#         found_path = ''
-#         for path in full_paths:
-#             if path.endswith('/' + filename):
-#                 found += 1
-#                 found_path = path
-#         if found == 0 or found > 1:
-#             raise ValueError(f'filename = {filename}, found = {found}')
-#         else:
-#             return found_path
-#
-#     matched = [find_path(filename) for filename in filenames]
-#     return tuple(matched)
