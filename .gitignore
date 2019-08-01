@@ -1,0 +1,6 @@
+snakemake/
+generated_data/
+.idea/
+ideas/
+slides/
+__pycache__/

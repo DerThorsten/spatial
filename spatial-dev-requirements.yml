@@ -22,5 +22,11 @@ dependencies:
   - scikit-image
   - vigra
   - matplotlib
+  - pyqtgraph
+  - pandas
+  - colorama
+  - progressbar2
+#  - snakemake
   - pip:
     - git+https://github.com/DerThorsten/layer_viewer.git
+   
