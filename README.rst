@@ -2,33 +2,17 @@
 Integrative analysis of single cell imaging mass citometry data of breast cancer patients
 =================================================
 
-.. 
-    .. image:: https://img.shields.io/travis/DerThorsten/spatial.svg
-            :target: https://travis-ci.org/DerThorsten/spatial
-
 .. image:: https://readthedocs.org/projects/spatial/badge/?version=latest
         :target: http://spatial.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status               
 
-
-..     
-    .. image:: https://travis-ci.org/DerThorsten/spatial.svg?branch=master
-        :target: https://travis-ci.org/DerThorsten/spatial
-..     
-    .. image:: https://circleci.com/gh/DerThorsten/spatial/tree/master.svg?style=svg
+      
+.. image:: https://circleci.com/gh/DerThorsten/spatial/tree/master.svg?style=svg
         :target: https://circleci.com/gh/DerThorsten/spatial/tree/master
-..     
-    .. image:: https://dev.azure.com/derthorstenbeier/spatial/_apis/build/status/DerThorsten.spatial?branchName=master&jobName=Linux
-        :target: https://dev.azure.com/derthorstenbeier/spatial/_build/latest?definitionId=1&branchName=master
-..     
-    .. image:: https://dev.azure.com/derthorstenbeier/spatial/_apis/build/status/DerThorsten.spatial?branchName=master&jobName=macOS
-        :target: https://dev.azure.com/derthorstenbeier/spatial/_build/latest?definitionId=1&branchName=master
-..     
-    .. image:: https://dev.azure.com/derthorstenbeier/spatial/_apis/build/status/DerThorsten.spatial?branchName=master&jobName=Windows
-        :target: https://dev.azure.com/derthorstenbeier/spatial/_build/latest?definitionId=1&branchName=master
+        :alt: CircleCI Status
+      
 
-.. 
-    Current features include: 
+Current features include: 
   * modern C++ 14
   * build system with modernish CMake 
   
@@ -42,14 +26,22 @@ and activate the corresponding conda environment
 
 ``conda activate spatial-dev``
 
+
 Currently, there is a problem in the DFKZ cluster which prevents Snakemake to be installed automatically from the ``.yml`` file, so in any machine you also need to run (from within the spatial-dev environment) the following:
 
 ``conda install -c bioconda snakemake``
 
+
+=======
 If this still does not work, you need to run the script manually instead that with Snakemake.
-
 Now, if you are in DKFZ cluster the data is already present (in ``/icgc/dkfzlsdf/analysis/B260/projects/spatial_zurich/data``) so, if you have been able to install Snakemake, you can run the exploratory data analysis simply with the command
+=======
+Now, if you are in DKFZ cluster the data is already present (in ``/icgc/dkfzlsdf/analysis/B260/projects/spatial_zurich/data``) so you can run the exploratory data analysis simply with the command
+>>>>>>> c269ac8d28bf8a4b3417ffcbabd34b50ff875ea6
 
+
+
+=======
 ``snakemake``
 
 If you are not in the cluster you first need to update the code in ``folders.py`` by inserting the path of the root folder of the data in your machine. In the root folder the data must be organized into this directory tree:

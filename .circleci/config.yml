@@ -24,7 +24,7 @@ variables:
       name: Run tests
       command: |
         conda env create -f spatial-dev-requirements.yml
-        source activate spatial-dev-requirements
+        source activate spatial-dev
         mkdir build
         cd build
         cmake ..
@@ -75,7 +75,6 @@ workflows:
   my_test:
     jobs:
       - test_job
-      - test_conda_build_job
 
   nightly-test:
     triggers:
@@ -87,4 +86,3 @@ workflows:
                   - master
     jobs:
        - test_job
-       - test_conda_build_job
