@@ -6,9 +6,10 @@ Integrative analysis of single cell imaging mass citometry data of breast cancer
     .. image:: https://img.shields.io/travis/DerThorsten/spatial.svg
             :target: https://travis-ci.org/DerThorsten/spatial
 
-.. image:: https://readthedocs.org/projects/spatial/badge/?version=latest
-        :target: http://spatial.readthedocs.io/en/latest/?badge=latest
-        :alt: Documentation Status               
+.. 
+    .. image:: https://readthedocs.org/projects/spatial/badge/?version=latest
+            :target: http://spatial.readthedocs.io/en/latest/?badge=latest
+            :alt: Documentation Status               
 
 
 ..     
@@ -18,6 +19,7 @@ Integrative analysis of single cell imaging mass citometry data of breast cancer
       
 .. image:: https://circleci.com/gh/DerThorsten/spatial/tree/master.svg?style=svg
         :target: https://circleci.com/gh/DerThorsten/spatial/tree/master
+        :alt: CircleCI Status
       
 ..     
     .. image:: https://dev.azure.com/derthorstenbeier/spatial/_apis/build/status/DerThorsten.spatial?branchName=master&jobName=Linux
